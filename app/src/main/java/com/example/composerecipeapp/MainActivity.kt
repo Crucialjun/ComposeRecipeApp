@@ -5,10 +5,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -18,11 +20,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,9 +48,6 @@ class MainActivity : ComponentActivity() {
                     Column(
                         Modifier.verticalScroll(rememberScrollState())
                     ) {
-                        Row() {
-
-                        }
                         Image(
                             painter = painterResource(id = R.drawable.happy_meal_small),
                             contentDescription = "Happy Meal Image",
@@ -56,12 +57,31 @@ class MainActivity : ComponentActivity() {
                         Column(
                             modifier = Modifier.padding(16.dp)
                         ) {
-                            Text(
-                                "Happy Meal",
-                                style = TextStyle(
-                                    fontSize = 26.sp
+                            Row(
+                                Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+
+
+
+                            ) {
+                                Text(
+                                    modifier = Modifier.align(Alignment.CenterVertically),
+                                    text = "Happy Meal",
+                                    style = TextStyle(
+                                        fontSize = 26.sp
+                                    )
                                 )
-                            )
+                                Text(
+                                    "$5.99",
+                                    style = TextStyle(
+                                        fontSize = 17.sp,
+                                        color = Color(0xFF85bb65)
+
+                                    ),
+
+                                )
+                            }
+
                             Spacer(Modifier.padding(top = 10.dp))
                             Text(
                                 "800 Calories", style = TextStyle(
@@ -69,14 +89,13 @@ class MainActivity : ComponentActivity() {
                                 )
                             )
                             Spacer(Modifier.padding(top = 10.dp))
-                            Text(
-                                "$5.99",
-                                style = TextStyle(
-                                    fontSize = 17.sp,
-                                    color = Color(0xFF85bb65)
+                            Button(
+                                onClick = {},
+                                Modifier.align(Alignment.CenterHorizontally)
+                            ){
+                                Text("ORDER NOW")
+                            }
 
-                                )
-                            )
 
 
                         }
