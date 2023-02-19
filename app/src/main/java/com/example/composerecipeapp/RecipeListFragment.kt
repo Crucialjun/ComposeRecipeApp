@@ -1,3 +1,3 @@
-import android.app.Fragment
+import androidx.fragment.app.Fragment
 
 class RecipeListFragment : Fragment()
