@@ -1,10 +1,10 @@
 package com.example.composerecipeapp.network.model
 
 import com.example.composerecipeapp.domain.model.Recipe
-import com.example.composerecipeapp.domain.util.EntityMapper
+import com.example.composerecipeapp.domain.util.DomainMapper
 
-class RecipeNetworkMapper : EntityMapper<RecipeNetworkEntity, Recipe> {
-    override fun mapFromEntity(entity: RecipeNetworkEntity): Recipe {
+class RecipeDtoMapper : DomainMapper<RecipeDto, Recipe> {
+    override fun mapToDomainModel(entity: RecipeDto): Recipe {
         return Recipe(
             id = entity.pk,
             title = entity.title,
@@ -20,8 +20,8 @@ class RecipeNetworkMapper : EntityMapper<RecipeNetworkEntity, Recipe> {
         )
     }
 
-    override fun mapToEntity(domainModel: Recipe): RecipeNetworkEntity {
-        return RecipeNetworkEntity(
+    override fun mapFromDomainModel(domainModel: Recipe): RecipeDto {
+        return RecipeDto(
             pk = domainModel.id,
             title = domainModel.title,
             publisher = domainModel.publisher,
@@ -36,10 +36,10 @@ class RecipeNetworkMapper : EntityMapper<RecipeNetworkEntity, Recipe> {
         )
     }
 
-    fun fromEntityList(initial :List<RecipeNetworkEntity>) : List<Recipe> {
-        return initial.map { mapFromEntity(it) }
+    fun fromEntityList(initial :List<RecipeDto>) : List<Recipe> {
+        return initial.map { mapToDomainModel(it) }
     }
-    fun fromDomainModelList(initial :List<Recipe>) : List<RecipeNetworkEntity> {
-        return initial.map { mapToEntity(it) }
+    fun fromDomainModelList(initial :List<Recipe>) : List<RecipeDto> {
+        return initial.map { mapFromDomainModel(it) }
     }
 }
