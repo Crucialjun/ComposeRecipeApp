@@ -11,7 +11,7 @@ interface  RecipeService {
     suspend fun search(
         @Header("Authorization")token : String,
         @Query("page") page : Int,
-        @Query("query") query :Int) :RecipeSearchResponse
+        @Query("query") query :String) :RecipeSearchResponse
 
     @GET("get")
     suspend fun getRecipes(
