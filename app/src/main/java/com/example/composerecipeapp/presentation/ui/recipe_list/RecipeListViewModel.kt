@@ -23,15 +23,15 @@ class RecipeListViewModel @Inject constructor(
 
     var query = mutableStateOf(TextFieldValue(""))
     init {
-       newSearch()
+       newSearch(query.value.text)
     }
 
-    private fun newSearch() {
+    fun newSearch(query : String) {
         viewModelScope.launch {
             var result = repository.search(
                 token= token,
                 page = 1,
-                query = "chicken"
+                query = query
             )
             recipes.value = result
         }
