@@ -57,6 +57,8 @@ class RecipeListFragment : Fragment() {
                 val recipes = viewModel.recipes.value
                 var query = viewModel.query.value
 
+                val selectedCategory = viewModel.selectedCategory
+
                 Column {
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
@@ -85,7 +87,7 @@ class RecipeListFragment : Fragment() {
                                     keyboardActions = KeyboardActions(
 
                                         onSearch = {
-                                            viewModel.newSearch(query)
+                                            viewModel.newSearch()
 
                                         }
                                     ),
@@ -99,9 +101,10 @@ class RecipeListFragment : Fragment() {
                             ScrollableTabRow(selectedTabIndex = 0, modifier = Modifier.padding(8.dp)) {
                                 for (category in getAllFoodCategories()) {
                                     SuggestionChip(
+
                                         onClick = {
-                                            viewModel.onQueryChanged(category.value)
-                                            viewModel.newSearch(category.value)
+                                            viewModel::newSearch
+                                            viewModel.onSelectedCategoryChanged(category.value)
                                         },
                                         label = {
                                             Text(
@@ -112,7 +115,10 @@ class RecipeListFragment : Fragment() {
                                             )
                                         },
                                         modifier = Modifier.padding(end = 8.dp),
-                                        colors = SuggestionChipDefaults.suggestionChipColors(containerColor = Purple80)
+                                        colors =
+                                        SuggestionChipDefaults.suggestionChipColors(
+
+                                            containerColor = if(selectedCategory.value == category) Purple80 else Color.Blue)
 
                                     )
 
