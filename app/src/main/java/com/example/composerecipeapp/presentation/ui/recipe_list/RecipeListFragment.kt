@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -54,36 +55,46 @@ class RecipeListFragment : Fragment() {
                         tonalElevation = 8.dp,
                         shadowElevation = 8.dp
                     ) {
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            TextField(
-                                modifier = Modifier
-                                    .fillMaxWidth(0.9f)
-                                    .padding(8.dp),
-                                value = query,
-                                onValueChange = {
-                                    viewModel.onQueryChanged(it)
-                                },
-                                label = {
-                                    Text(text = "Search")
-                                },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    imeAction = ImeAction.Search,
-                                ),
-                                leadingIcon = { Icon (Icons.Filled.Search,"")},
-                                keyboardActions = KeyboardActions(
+                        Column {
 
-                                    onSearch = {
-                                        viewModel.newSearch(query.text)
+                            Row(modifier = Modifier.fillMaxWidth()) {
+                                TextField(
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.9f)
+                                        .padding(8.dp),
+                                    value = query,
+                                    onValueChange = {
+                                        viewModel.onQueryChanged(it)
+                                    },
+                                    label = {
+                                        Text(text = "Search")
+                                    },
+                                    keyboardOptions = KeyboardOptions(
+                                        keyboardType = KeyboardType.Text,
+                                        imeAction = ImeAction.Search,
+                                    ),
+                                    leadingIcon = { Icon(Icons.Filled.Search, "") },
+                                    keyboardActions = KeyboardActions(
 
-                                    }
-                                ),
-                                textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
+                                        onSearch = {
+                                            viewModel.newSearch(query.text)
 
-                            )
+                                        }
+                                    ),
+                                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
+
+                                    )
 
 
+                            }
+
+                            ScrollableTabRow(selectedTabIndex = 0 ) {
+                                for(category in getAllFoodCategories()){
+                                    Text(category.value, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary, modifier = Modifier.padding(8.dp))
+                                }
+                            }
                         }
+
                     }
                     LazyColumn(
 
