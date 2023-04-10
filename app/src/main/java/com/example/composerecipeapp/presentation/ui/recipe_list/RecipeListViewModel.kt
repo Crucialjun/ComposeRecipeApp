@@ -2,7 +2,6 @@ package com.example.composerecipeapp.presentation.ui.recipe_list
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composerecipeapp.domain.model.Recipe
@@ -21,9 +20,9 @@ class RecipeListViewModel @Inject constructor(
 
     val recipes: MutableState<List<Recipe>> = mutableStateOf(ArrayList())
 
-    var query = mutableStateOf(TextFieldValue(""))
+    var query = mutableStateOf("")
     init {
-       newSearch(query.value.text)
+       newSearch(query.value)
     }
 
     fun newSearch(query : String) {
@@ -37,7 +36,7 @@ class RecipeListViewModel @Inject constructor(
         }
     }
 
-    fun onQueryChanged(query :TextFieldValue){
+    fun onQueryChanged(query :String){
         this.query.value = query
     }
 }
