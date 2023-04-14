@@ -1,5 +1,6 @@
 package com.example.composerecipeapp.presentation.ui.recipe_list
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,9 @@ class RecipeListViewModel @Inject constructor(
     var query = mutableStateOf("")
 
     val selectedCategory : MutableState<FoodCategory?> = mutableStateOf(null)
+
+    var categoryScrollPosition : Float = 0f
+
     init {
        newSearch()
     }
@@ -44,7 +48,12 @@ class RecipeListViewModel @Inject constructor(
 
     fun onSelectedCategoryChanged(category : String){
         val newCategory = getFoodCategory(category)
+        Log.d("TAG", "onSelectedCategoryChanged:category is $category ")
         selectedCategory.value = newCategory
         onQueryChanged(category)
+    }
+
+    fun onChangedCategoryScrollPostion(postion :Float){
+        categoryScrollPosition = postion;
     }
 }

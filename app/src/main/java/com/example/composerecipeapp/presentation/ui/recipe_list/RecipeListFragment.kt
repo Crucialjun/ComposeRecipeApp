@@ -5,38 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ScrollableTabRow
-import androidx.compose.material3.SuggestionChip
-import androidx.compose.material3.SuggestionChipDefaults
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.composerecipeapp.presentation.components.RecipeCard
-import com.example.composerecipeapp.ui.theme.Purple80
+import com.example.composerecipeapp.presentation.components.SearchAppBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,78 +36,17 @@ class RecipeListFragment : Fragment() {
                 val recipes = viewModel.recipes.value
                 var query = viewModel.query.value
 
-                val selectedCategory = viewModel.selectedCategory
+                val selectedCategory = viewModel.selectedCategory.value
 
-                Column {
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        color = Color.White,
-                        tonalElevation = 8.dp,
-                        shadowElevation = 8.dp
-                    ) {
-                        Column {
-                            Row(modifier = Modifier.fillMaxWidth()) {
-                                TextField(
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.9f)
-                                        .padding(8.dp),
-                                    value = query,
-                                    onValueChange = {
-                                        viewModel.onQueryChanged(it)
-                                    },
-                                    label = {
-                                        Text(text = "Search")
-                                    },
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Text,
-                                        imeAction = ImeAction.Search,
-                                    ),
-                                    leadingIcon = { Icon(Icons.Filled.Search, "") },
-                                    keyboardActions = KeyboardActions(
+                Column(modifier = Modifier.fillMaxSize()) {
+                    SearchAppBar(
 
-                                        onSearch = {
-                                            viewModel.newSearch()
-
-                                        }
-                                    ),
-                                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
-
-                                    )
-
-
-                            }
-
-                            ScrollableTabRow(selectedTabIndex = 0, modifier = Modifier.padding(8.dp)) {
-                                for (category in getAllFoodCategories()) {
-                                    SuggestionChip(
-
-                                        onClick = {
-                                            viewModel::newSearch
-                                            viewModel.onSelectedCategoryChanged(category.value)
-                                        },
-                                        label = {
-                                            Text(
-                                                category.value,
-                                                style = MaterialTheme.typography.bodyMedium,
-                                                color = Color.White,
-                                                modifier = Modifier.padding(8.dp)
-                                            )
-                                        },
-                                        modifier = Modifier.padding(end = 8.dp),
-                                        colors =
-                                        SuggestionChipDefaults.suggestionChipColors(
-
-                                            containerColor = if(selectedCategory.value == category) Purple80 else Color.Blue)
-
-                                    )
-
-                                }
-                            }
-                        }
-
-
-                    }
-                    Spacer(modifier = Modifier.height(2.dp))
+                        query = query,
+                        onQueryChanged = viewModel::onQueryChanged,
+                        newSearch = viewModel::newSearch,
+                        onSelectedCategoryChanged = viewModel::onSelectedCategoryChanged,
+                        selectedCategory = selectedCategory
+                    )
                     LazyColumn(
 
                     ) {
